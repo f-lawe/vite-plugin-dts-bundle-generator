@@ -1,0 +1,38 @@
+{
+  "name": "vite-plugin-dts-bundle-generator",
+  "version": "0.0.1",
+  "description": "DTS bundle generator for Vite",
+  "main": "dist/dts-bundle-generator.cjs",
+  "module": "dist/dts-bundle-generator.mjs",
+  "source": "src/index.ts",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .ts --fix && sort-package-json",
+    "prepack": "npm run clean && npm run build",
+    "watch": "vite build --watch"
+  },
+  "keywords": [
+    "vite-plugin",
+    "dts",
+    "bundle",
+    "typescript"
+  ],
+  "author": "BreizhReloaded",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.5",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "rimraf": "^4.4.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.1"
+  },
+  "dependencies": {
+    "dts-bundle-generator": "^7.2.0"
+  },
+  "peerDependencies": {
+    "vite": "^4.2.1"
+  }
+}
