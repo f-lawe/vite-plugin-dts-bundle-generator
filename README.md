@@ -1,90 +1,48 @@
-# unstorage-pinia-plugin
+# DTS Bundle Generator Vite plugin
 
-Persist and hydrate your pinia state using [unstorage](https://github.com/unjs/unstorage)!
+![npm](https://img.shields.io/npm/v/vite-plugin-dts-bundle-generator)
+![NPM](https://img.shields.io/npm/l/vite-plugin-dts-bundle-generator)
+
+Ever wanted to easily package your library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) when using [Vite]()!
 
 ## Install
 ```sh
 # npm
-npm i unstorage unstorage-pinia-plugin
+npm i vite-plugin-dts-bundle-generator
 
 # yarn
-yarn add unstorage unstorage-pinia-plugin
+yarn add vite-plugin-dts-bundle-generator
 ```
 
 ## Usage
-You can use any available [unstorage driver](https://github.com/unjs/unstorage#drivers). Drivers can be set either globally or per store. Locally defined driver overrides global definition.
-
-Global driver:
-```ts
-// pinia.ts
-import { createPinia } from 'pinia';
-import { createUnstoragePlugin } from 'unstorage-pinia-plugin';
-import localStorageDriver from 'unstorage/drivers/localstorage';
-
-const pinia = createPinia();
-
-pinia.use(createUnstoragePlugin({
-  // unstorage plugin options
-}));
-
-export default pinia;
-```
-
-Per store driver:
-```ts
-// pinia.ts
-import { createPinia } from 'pinia';
-import { createUnstoragePlugin } from 'unstorage-pinia-plugin';
-
-const pinia = createPinia();
-
-pinia.use(createUnstoragePlugin());
-
-export default pinia;
-```
+In your `vite.config.ts`:
 
 ```ts
-// store.ts
-import { computed, ref } from 'vue';
-import { defineStore } from 'pinia';
-import { defineStoreStorage } from 'unstorage-pinia-plugin';
-import localStorageDriver from 'unstorage/drivers/localstorage';
+import path from 'path';
+import { defineConfig, normalizePath } from 'vite';
+import dtsBundleGenerator from 'vite-plugin-dts-bundle-generator';
 
-export const useStore = defineStore(
-  'store',
-  () => {
-    // setup and return your state, getters and actions
-  },
-  {
-    unstorage: {
-      // unstorage store options
+export default defineConfig({
+  plugin: [
+    dtsBundleGenerator({ fileName: 'my-lib.d.ts' })
+  ],
+  build: {
+    lib: {
+      entry: normalizePath(path.resolve('src', 'index.ts')),
+      formats: ['es'],
+      fileName: 'my-lib.mjs'
     }
   }
 });
+
 ```
 
-If you prefer the option way:
-```ts
-import { defineUnstore } from 'unstorage-pinia-plugin';
-import localStorageDriver from 'unstorage/drivers/localstorage';
-
-export const useStore = defineUnstore(
-  'store',
-  {
-    // define your state, getters and actions
-  },
-  {
-    // unstorage store options
-  }
-);
-```
+And that's it!
 
 ## Configuration
 
-### Plugin options
-- `driver: Driver` : Default unstorage driver (see [list](https://github.com/unjs/unstorage#drivers)).
+You can use any of the entry point config options of [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
 
-### Store options
-- `driver: Driver` : Driver for the store (see [list](https://github.com/unjs/unstorage#drivers)).
+## Known limitations
 
-- `filter?: Array<string>` : State keys you actually want to persist. All keys are pushed by default.
+This plugin handles only one entry file (as I don't need further support for my own projetcs). Feel free to let me know if you need this kind of feature.
