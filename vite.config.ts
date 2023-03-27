@@ -1,13 +1,8 @@
 import path from 'path';
-import type { ExternalOption } from 'rollup';
 import { defineConfig, normalizePath } from 'vite';
 
 import dtsBundleGenerator from './src';
 import p from './package.json' assert { type: 'json' };
-
-const dependencies = Object.keys(p.dependencies).concat(Object.keys(p.peerDependencies));
-
-const external: ExternalOption = (source) => ['fs', 'picocolors'].concat(dependencies).some(d => source.indexOf(d) == 0);
 
 const formats: Record<string, string> = {
   'es': path.basename(p.module),
@@ -29,7 +24,7 @@ export default defineConfig({
       fileName: (format) => formats[format]
     },
     rollupOptions: {
-      external
+      external: ['dts-bundle-generator', 'fs', 'path', 'picocolors', 'vite']
     }
   }
 });
