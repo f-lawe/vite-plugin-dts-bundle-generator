@@ -1,6 +1,7 @@
 # DTS Bundle Generator Vite plugin
 
 ![npm](https://img.shields.io/npm/v/vite-plugin-dts-bundle-generator)
+![npm](https://img.shields.io/npm/dt/vite-plugin-dts-bundle-generator)
 ![NPM](https://img.shields.io/npm/l/vite-plugin-dts-bundle-generator)
 
 Ever wanted to easily package your library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) when using [Vite]()!

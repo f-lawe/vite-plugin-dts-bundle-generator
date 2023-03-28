@@ -8,6 +8,7 @@
     "bundle",
     "typescript"
   ],
+  "repository": "https://github.com/f-lawe/vite-plugin-dts-bundle-generator",
   "license": "MIT",
   "author": "François Lavaud-Wernert <francois@lavaud.family>",
   "main": "dist/dts-bundle-generator.cjs",
