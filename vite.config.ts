@@ -12,8 +12,10 @@ const formats: Record<string, string> = {
 export default defineConfig({
   plugins: [
     dtsBundleGenerator({
-      fileName: path.basename(p.types),
-      output: { noBanner: true }
+      outFile: path.basename(p.types),
+      output: {
+        noBanner: true
+      }
     })
   ],
   build: {
