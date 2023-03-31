@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-dts-bundle-generator",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "DTS bundle generator for Vite",
   "keywords": [
     "vite-plugin",
