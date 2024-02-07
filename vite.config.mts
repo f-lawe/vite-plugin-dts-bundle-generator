@@ -21,7 +21,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
     lib: {
-      entry: normalizePath(path.resolve('src', 'index.ts')),
+      entry: normalizePath(p.source),
       formats: ['cjs', 'es'],
       fileName: (format) => formats[format]
     },
