@@ -13,29 +13,30 @@
   "author": "François Lavaud-Wernert <francois@lavaud.family>",
   "main": "dist/dts-bundle-generator.cjs",
   "module": "dist/dts-bundle-generator.mjs",
-  "source": "src/index.ts",
+  "source": "src/index.mts",
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
+    "analyse": "tsc --noEmit",
     "build": "vite build",
     "clean": "rimraf dist",
-    "lint": "eslint . --ext .ts --fix && sort-package-json",
+    "lint": "eslint . --ext .mts --fix && sort-package-json",
     "prepack": "npm run clean && npm run build",
     "watch": "vite build --watch"
   },
   "dependencies": {
-    "dts-bundle-generator": "^7.2.0"
+    "dts-bundle-generator": "^9.3.1"
   },
   "devDependencies": {
-    "@types/node": "^18.15.5",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.36.0",
-    "rimraf": "^4.4.0",
+    "rimraf": "^5.0.5",
     "sort-package-json": "^2.4.1",
     "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "vite": "^5.0.12"
   },
   "peerDependencies": {
-    "vite": "^4.2.1"
+    "vite": "^5.0.12"
   }
 }
