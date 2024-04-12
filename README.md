@@ -25,7 +25,10 @@ import dtsBundleGenerator from 'vite-plugin-dts-bundle-generator';
 
 export default defineConfig({
   plugin: [
-    dtsBundleGenerator({ fileName: 'my-lib.d.ts' })
+    dtsBundleGenerator({
+      fileName: 'my-lib.d.ts',
+      // any other options from dts-bundle-generator
+    })
   ],
   build: {
     lib: {
@@ -42,8 +45,5 @@ And that's it!
 
 ## Configuration
 
-You can use any of the entry point config options of [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
+This library handle both single and multiple entrypoints. You can use any of the entry point config options of [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
 
-## Known limitations
-
-This plugin handles only one entry file (as I don't need further support for my own projetcs). Feel free to let me know if you need this kind of feature.

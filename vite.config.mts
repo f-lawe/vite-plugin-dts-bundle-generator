@@ -12,7 +12,7 @@ const formats: Record<string, string> = {
 export default defineConfig({
   plugins: [
     dtsBundleGenerator({
-      outFile: path.basename(p.types),
+      fileName: path.basename(p.types),
       output: {
         noBanner: true
       }

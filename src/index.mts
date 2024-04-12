@@ -2,17 +2,19 @@ import fs from 'fs';
 import path from 'path';
 
 import colors from 'picocolors';
-import type { CompilationOptions, EntryPointConfig as EntryPointConfigBase } from 'dts-bundle-generator';
+import type { CompilationOptions, EntryPointConfig } from 'dts-bundle-generator';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import type { ResolvedConfig } from 'vite';
 
-type EntryPointConfigExtended = EntryPointConfigBase & {
-  outFile: string
+type ExtendedEntryPointConfig = EntryPointConfig & {
+  outFile: string;
 };
 
-type EntryPointConfig = Omit<EntryPointConfigExtended, 'filePath'>
+type PluginConfig = Omit<EntryPointConfig, 'filePath'> & {
+  fileName: string | ((entryName: string) => string);
+}
 
-type Bundle = {
+type DeclarationBundle = {
   content: string;
   outFile: string;
   info: string;
@@ -23,10 +25,10 @@ const displaySize = (bytes: number) => `${(bytes / 1000).toLocaleString('en', {
   minimumFractionDigits: 2,
 })} kB`;
 
-const dtsBundleGenerator = (entry: EntryPointConfig | Array<EntryPointConfig>, compilationOptions?: CompilationOptions) => {
-  const viteConfig: ResolvedConfig = {} as ResolvedConfig;
-  const bundleEntries: Array<EntryPointConfigExtended> = [];
-  const bundles: Array<Bundle> = [];
+const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: CompilationOptions) => {
+  const viteConfig = {} as ResolvedConfig;
+  const namedEntryPointConfigs: Array<ExtendedEntryPointConfig> = [];
+  const bundles: Array<DeclarationBundle> = [];
 
   return {
     name: 'dts-bundle-generator',
@@ -34,29 +36,24 @@ const dtsBundleGenerator = (entry: EntryPointConfig | Array<EntryPointConfig>, c
       Object.assign(viteConfig, resolvedConfig);
 
       if (viteConfig.build.lib) {
-        const libEntries = Array.isArray(viteConfig.build.lib.entry) ? viteConfig.build.lib.entry : [viteConfig.build.lib.entry] ;
-        const pluginEntries = Array.isArray(entry) ? entry : [entry];
+        const libEntries = typeof viteConfig.build.lib.entry == 'object' ? viteConfig.build.lib.entry : { default: viteConfig.build.lib.entry };
+        const fileName = typeof pluginConfig.fileName == 'function' ? pluginConfig.fileName : () => pluginConfig.fileName as string;
 
-        if (libEntries.length != pluginEntries.length) {
-          throw new Error('Entries count does not match');
-        }
-
-        libEntries.forEach((entry, i) => bundleEntries.push({
-          filePath: entry as string,
-          ...pluginEntries[i]
+        Object.entries(libEntries).forEach(([entryName, filePath]) => namedEntryPointConfigs.push({
+          filePath,
+          outFile: fileName(entryName),
+          output: pluginConfig.output,
         }));
       }
     },
     buildEnd: async () => {
-      generateDtsBundle(bundleEntries, compilationOptions).forEach((content, i) =>
-        bundles.push({
-          content,
-          outFile: path.resolve(viteConfig.build.outDir, bundleEntries[i].outFile),
-          info: colors.dim(`${viteConfig.build.outDir}/`)
-            + colors.cyan(`${bundleEntries[i].outFile}  `)
-            + colors.dim(displaySize(Buffer.byteLength(content)))
-        })
-      );
+      generateDtsBundle(namedEntryPointConfigs, compilationOptions).forEach((content, i) => bundles.push({
+        content,
+        outFile: path.resolve(viteConfig.build.outDir, namedEntryPointConfigs[i].outFile),
+        info: colors.dim(`${viteConfig.build.outDir}/`)
+          + colors.cyan(`${namedEntryPointConfigs[i].outFile}  `)
+          + colors.dim(displaySize(Buffer.byteLength(content)))
+      }));
     },
     closeBundle: async () => {
       viteConfig.logger.info(`\n ${colors.green('✓')} ${bundles.length} declaration bundles generated.`);
