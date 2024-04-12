@@ -43,6 +43,8 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
           filePath,
           outFile: fileName(entryName),
           output: pluginConfig.output,
+          libraries: pluginConfig.libraries,
+          failOnClass: pluginConfig.failOnClass
         }));
       }
     },

@@ -16,7 +16,7 @@ yarn add vite-plugin-dts-bundle-generator
 ```
 
 ## Usage
-In your `vite.config.ts`:
+Add this block in your `vite.config.ts`:
 
 ```ts
 import path from 'path';
@@ -24,7 +24,7 @@ import { defineConfig, normalizePath } from 'vite';
 import dtsBundleGenerator from 'vite-plugin-dts-bundle-generator';
 
 export default defineConfig({
-  plugin: [
+  plugins: [
     dtsBundleGenerator({
       fileName: 'my-lib.d.ts',
       // any other options from dts-bundle-generator
@@ -45,5 +45,5 @@ And that's it!
 
 ## Configuration
 
-This library handle both single and multiple entrypoints. You can use any of the entry point config options of [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
+This library handle both single and multiple entrypoints. You can use any of the config options provided by [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
 
