@@ -14,7 +14,10 @@ export default defineConfig({
     dtsBundleGenerator({
       fileName: path.basename(p.types),
       output: {
-        noBanner: true
+        noBanner: true,
+      },
+      libraries: {
+        importedLibraries: ['dts-bundle-generator', 'vite', 'rollup']
       }
     })
   ],

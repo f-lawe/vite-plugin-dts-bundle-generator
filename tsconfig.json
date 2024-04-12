@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "NodeNext",
+    "target": "ESNext",
+    "module":"NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
