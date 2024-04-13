@@ -2,9 +2,9 @@
 
 ![npm](https://img.shields.io/npm/v/vite-plugin-dts-bundle-generator)
 ![npm](https://img.shields.io/npm/dt/vite-plugin-dts-bundle-generator)
-![NPM](https://img.shields.io/npm/l/vite-plugin-dts-bundle-generator)
+![npm](https://img.shields.io/npm/l/vite-plugin-dts-bundle-generator)
 
-Ever wanted to easily package your library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) when using [Vite]()!
+Ever wanted to easily package your typescript library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) within [Vite](https://github.com/vitejs/vite)!
 
 ## Install
 ```sh
@@ -16,7 +16,7 @@ yarn add vite-plugin-dts-bundle-generator
 ```
 
 ## Usage
-Add this block in your `vite.config.ts`:
+Add this block to your `vite.config.ts`:
 
 ```ts
 import path from 'path';
@@ -27,7 +27,14 @@ export default defineConfig({
   plugins: [
     dtsBundleGenerator({
       fileName: 'my-lib.d.ts',
-      // any other options from dts-bundle-generator
+      output: {
+        // output options
+      },
+      libraries: {
+        // libraries options
+      }
+    }, {
+      // compilation options
     })
   ],
   build: {
@@ -45,5 +52,5 @@ And that's it!
 
 ## Configuration
 
-This library handle both single and multiple entrypoints. You can use any of the config options provided by [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
+This library handle both single and multiple entrypoints. You can use any of the output, libraries and compilation options provided by [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
 

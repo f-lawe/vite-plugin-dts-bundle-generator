@@ -4,13 +4,13 @@ import path from 'path';
 import colors from 'picocolors';
 import type { CompilationOptions, EntryPointConfig } from 'dts-bundle-generator';
 import { generateDtsBundle } from 'dts-bundle-generator';
-import type { ResolvedConfig } from 'vite';
+import type { InputOption } from 'rollup';
 
 type ExtendedEntryPointConfig = EntryPointConfig & {
   outFile: string;
 };
 
-type PluginConfig = Omit<EntryPointConfig, 'filePath'> & {
+export type PluginConfig = Omit<EntryPointConfig, 'filePath'> & {
   fileName: string | ((entryName: string) => string);
 }
 
@@ -19,6 +19,18 @@ type DeclarationBundle = {
   outFile: string;
   info: string;
 };
+
+type ResolvedConfig = {
+  build: {
+    lib: {
+      entry: InputOption;
+    }
+    outDir: string;
+  }
+  logger: {
+    info(msg: string): void;
+  }
+}
 
 const displaySize = (bytes: number) => `${(bytes / 1000).toLocaleString('en', {
   maximumFractionDigits: 2,
@@ -32,7 +44,8 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
 
   return {
     name: 'dts-bundle-generator',
-    configResolved: (resolvedConfig: ResolvedConfig) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    configResolved: (resolvedConfig: any) => {
       Object.assign(viteConfig, resolvedConfig);
 
       if (viteConfig.build.lib) {
@@ -40,11 +53,9 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
         const fileName = typeof pluginConfig.fileName == 'function' ? pluginConfig.fileName : () => pluginConfig.fileName as string;
 
         Object.entries(libEntries).forEach(([entryName, filePath]) => namedEntryPointConfigs.push({
+          ...pluginConfig,
           filePath,
-          outFile: fileName(entryName),
-          output: pluginConfig.output,
-          libraries: pluginConfig.libraries,
-          failOnClass: pluginConfig.failOnClass
+          outFile: fileName(entryName)
         }));
       }
     },
@@ -58,7 +69,7 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
       }));
     },
     closeBundle: async () => {
-      viteConfig.logger.info(`\n ${colors.green('✓')} ${bundles.length} declaration bundles generated.`);
+      viteConfig.logger.info(`\n${colors.green('✓')} ${bundles.length} declaration bundles generated.`);
       bundles.forEach(bundle => {
         fs.writeFileSync(bundle.outFile, bundle.content);
         viteConfig.logger.info(bundle.info);

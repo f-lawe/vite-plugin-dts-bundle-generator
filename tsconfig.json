@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module":"NodeNext",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
     "jsx": "preserve",
@@ -18,8 +18,7 @@
     "declarationDir": "./dist"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.d.ts"
+    "*.mts",
+    "src/*.mts",
   ]
 }

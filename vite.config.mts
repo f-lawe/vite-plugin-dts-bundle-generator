@@ -5,8 +5,7 @@ import dtsBundleGenerator from './src/index.mjs';
 import p from './package.json' assert { type: 'json' };
 
 const formats: Record<string, string> = {
-  'es': path.basename(p.module),
-  'cjs': path.basename(p.main)
+  'es': path.basename(p.module)
 };
 
 export default defineConfig({
@@ -15,9 +14,6 @@ export default defineConfig({
       fileName: path.basename(p.types),
       output: {
         noBanner: true,
-      },
-      libraries: {
-        importedLibraries: ['dts-bundle-generator', 'vite', 'rollup']
       }
     })
   ],
@@ -25,7 +21,7 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: normalizePath(p.source),
-      formats: ['cjs', 'es'],
+      formats: ['es'],
       fileName: (format) => formats[format]
     },
     rollupOptions: {
