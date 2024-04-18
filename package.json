@@ -14,7 +14,7 @@
   "exports": {
     ".": {
       "import": "./dist/dts-bundle-generator.mjs",
-      "types": "./dist/dts-bundle-generator.ts"
+      "types": "./dist/dts-bundle-generator.d.ts"
     }
   },
   "module": "dist/dts-bundle-generator.mjs",
