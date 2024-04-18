@@ -11,6 +11,12 @@
   "repository": "https://github.com/f-lawe/vite-plugin-dts-bundle-generator",
   "license": "MIT",
   "author": "François Lavaud-Wernert <francois@lavaud.family>",
+  "exports": {
+    ".": {
+      "import": "./dist/dts-bundle-generator.mjs",
+      "types": "./dist/dts-bundle-generator.ts"
+    }
+  },
   "module": "dist/dts-bundle-generator.mjs",
   "source": "src/index.mts",
   "types": "dist/dts-bundle-generator.d.ts",
