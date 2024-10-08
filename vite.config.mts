@@ -2,7 +2,7 @@ import path from 'path';
 import { defineConfig, normalizePath } from 'vite';
 
 import dtsBundleGenerator from './src/index.mjs';
-import p from './package.json' assert { type: 'json' };
+import p from './package.json' with { type: 'json' };
 
 const formats: Record<string, string> = {
   'es': path.basename(p.module)
