@@ -28,10 +28,10 @@ export default defineConfig({
     dtsBundleGenerator({
       fileName: 'my-lib.d.ts',
       output: {
-        // output options
+        // output config
       },
       libraries: {
-        // libraries options
+        // libraries config
       }
     }, {
       // compilation options
@@ -52,5 +52,5 @@ And that's it!
 
 ## Configuration
 
-This library handle both single and multiple entrypoints. You can use any of the output, libraries and compilation options provided by [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator).
+This library handle both single and multiple entrypoints. You can use any of the output, libraries and compilation options available in the [config file](https://github.com/timocov/dts-bundle-generator/blob/master/src/config-file/README.md) of DTS Bundle Generator.
 
