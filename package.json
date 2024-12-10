@@ -11,6 +11,7 @@
   "repository": "https://github.com/f-lawe/vite-plugin-dts-bundle-generator",
   "license": "MIT",
   "author": "François Lavaud-Wernert <francois@lavaud.family>",
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/dts-bundle-generator.mjs",
@@ -18,13 +19,13 @@
     }
   },
   "module": "dist/dts-bundle-generator.mjs",
-  "source": "src/index.mts",
+  "source": "src/index.ts",
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
     "analyse": "tsc --noEmit",
     "build": "vite build",
     "clean": "rimraf dist",
-    "format": "eslint . --fix && sort-package-json",
+    "lint": "eslint . --fix && sort-package-json",
     "prepack": "npm run clean && npm run build",
     "watch": "vite build --watch"
   },
@@ -34,14 +35,13 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.12.0",
+    "@stylistic/eslint-plugin": "^3.0.0",
     "@types/node": "^22.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.8.1",
-    "@typescript-eslint/parser": "^8.8.1",
     "eslint": "^9.12.0",
-    "jiti": "^2.3.3",
     "rimraf": "^6.0.1",
     "sort-package-json": "^2.4.1",
     "typescript": "^5.0.2",
+    "typescript-eslint": "^8.21.0",
     "vite": "^5.0.12 || ^6.0.0"
   },
   "peerDependencies": {

@@ -1,11 +1,11 @@
 import path from 'path';
 import { defineConfig, normalizePath } from 'vite';
 
-import dtsBundleGenerator from './src/index.mjs';
+import dtsBundleGenerator from './src/index.js';
 import p from './package.json' with { type: 'json' };
 
 const formats: Record<string, string> = {
-  'es': path.basename(p.module)
+  'es': path.basename(p.module),
 };
 
 export default defineConfig({
@@ -14,18 +14,18 @@ export default defineConfig({
       fileName: path.basename(p.types),
       output: {
         noBanner: true,
-      }
-    })
+      },
+    }),
   ],
   build: {
     sourcemap: true,
     lib: {
       entry: normalizePath(p.source),
       formats: ['es'],
-      fileName: (format) => formats[format]
+      fileName: (format) => formats[format],
     },
     rollupOptions: {
-      external: ['dts-bundle-generator', 'fs', 'path', 'picocolors', 'vite']
-    }
-  }
+      external: ['dts-bundle-generator', 'fs', 'path', 'picocolors', 'vite', 'zlib'],
+    },
+  },
 });

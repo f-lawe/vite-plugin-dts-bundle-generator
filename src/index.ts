@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import zlib from 'zlib';
 
 import colors from 'picocolors';
 import type { CompilationOptions, EntryPointConfig } from 'dts-bundle-generator';
@@ -7,40 +8,49 @@ import { generateDtsBundle } from 'dts-bundle-generator';
 import type { InputOption } from 'rollup';
 
 type ExtendedEntryPointConfig = EntryPointConfig & {
-  outFile: string;
+  outFile: string
 };
 
 export type PluginConfig = Omit<EntryPointConfig, 'filePath'> & {
-  fileName: string | ((entryName: string) => string);
-}
-
-type DeclarationBundle = {
-  content: string;
-  outFile: string;
-  info: string;
+  fileName: string | ((entryName: string) => string)
 };
 
-type ResolvedConfig = {
+interface DeclarationBundle {
+  content: string
+  outFile: string
+  info: string
+}
+
+interface ResolvedConfig {
   build: {
-    lib: {
-      entry: InputOption;
+    lib?: {
+      entry: InputOption
     }
-    outDir: string;
+    outDir: string
   }
   logger: {
-    info(msg: string): void;
+    info(msg: string): void
   }
 }
 
-const displaySize = (bytes: number) => `${(bytes / 1000).toLocaleString('en', {
-  maximumFractionDigits: 2,
-  minimumFractionDigits: 2,
-})} kB`;
+const displaySize = (content: string) => {
+  const size = Buffer.byteLength(content);
+  const compressedSize = zlib.gzipSync(content).length;
+
+  const options = {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  };
+
+  return `${(size / 1000).toLocaleString('en', options)} kB`
+    + '|'
+    + `gzip: ${(compressedSize / 1000).toLocaleString('en', options)} kB`;
+};
 
 const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: CompilationOptions) => {
   const viteConfig = {} as ResolvedConfig;
-  const namedEntryPointConfigs: Array<ExtendedEntryPointConfig> = [];
-  const bundles: Array<DeclarationBundle> = [];
+  const namedEntryPointConfigs: ExtendedEntryPointConfig[] = [];
+  const bundles: DeclarationBundle[] = [];
 
   return {
     name: 'dts-bundle-generator',
@@ -49,32 +59,36 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
       Object.assign(viteConfig, resolvedConfig);
 
       if (viteConfig.build.lib) {
-        const libEntries = typeof viteConfig.build.lib.entry == 'object' ? viteConfig.build.lib.entry : { default: viteConfig.build.lib.entry };
-        const fileName = typeof pluginConfig.fileName == 'function' ? pluginConfig.fileName : () => pluginConfig.fileName as string;
+        const libEntries = typeof viteConfig.build.lib.entry == 'object'
+          ? viteConfig.build.lib.entry
+          : { default: viteConfig.build.lib.entry };
+        const fileName = typeof pluginConfig.fileName == 'function'
+          ? pluginConfig.fileName
+          : () => pluginConfig.fileName as string;
 
         Object.entries(libEntries).forEach(([entryName, filePath]) => namedEntryPointConfigs.push({
           ...pluginConfig,
           filePath,
-          outFile: fileName(entryName)
+          outFile: fileName(entryName),
         }));
       }
     },
-    buildEnd: async () => {
+    buildEnd: () => {
       generateDtsBundle(namedEntryPointConfigs, compilationOptions).forEach((content, i) => bundles.push({
         content,
         outFile: path.resolve(viteConfig.build.outDir, namedEntryPointConfigs[i].outFile),
         info: colors.dim(`${viteConfig.build.outDir}/`)
           + colors.cyan(`${namedEntryPointConfigs[i].outFile}  `)
-          + colors.dim(displaySize(Buffer.byteLength(content)))
+          + colors.dim(displaySize(content)),
       }));
     },
-    closeBundle: async () => {
-      viteConfig.logger.info(`\n${colors.green('✓')} ${bundles.length} declaration bundles generated.`);
-      bundles.forEach(bundle => {
+    closeBundle: () => {
+      viteConfig.logger.info(`\n${colors.green('✓')} ${bundles.length.toString()} declaration bundles generated.`);
+      bundles.forEach((bundle) => {
         fs.writeFileSync(bundle.outFile, bundle.content);
         viteConfig.logger.info(bundle.info);
       });
-    }
+    },
   };
 };
 
