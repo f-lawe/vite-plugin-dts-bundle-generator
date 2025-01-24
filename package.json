@@ -24,7 +24,7 @@
     "analyse": "tsc --noEmit",
     "build": "vite build",
     "clean": "rimraf dist",
-    "lint": "eslint . --fix --flag unstable_ts_config --config eslint.config.mts && sort-package-json",
+    "format": "eslint . --fix && sort-package-json",
     "prepack": "npm run clean && npm run build",
     "watch": "vite build --watch"
   },

@@ -2,7 +2,6 @@ import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-// @ts-expect-error Missing types
 import js from '@eslint/js';
 // @ts-expect-error Missing types
 import { FlatCompat } from '@eslint/eslintrc';
