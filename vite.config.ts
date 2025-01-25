@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, normalizePath } from 'vite';
 
-import dtsBundleGenerator from './src/index.mjs';
+import dtsBundleGenerator from './src/index.js';
 import p from './package.json' with { type: 'json' };
 
 const formats: Record<string, string> = {

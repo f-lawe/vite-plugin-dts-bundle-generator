@@ -14,15 +14,15 @@ export type PluginConfig = Omit<EntryPointConfig, 'filePath'> & {
   fileName: string | ((entryName: string) => string);
 }
 
-type DeclarationBundle = {
+interface DeclarationBundle {
   content: string;
   outFile: string;
   info: string;
-};
+}
 
-type ResolvedConfig = {
+interface ResolvedConfig {
   build: {
-    lib: {
+    lib?: {
       entry: InputOption;
     }
     outDir: string;
@@ -39,8 +39,8 @@ const displaySize = (bytes: number) => `${(bytes / 1000).toLocaleString('en', {
 
 const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: CompilationOptions) => {
   const viteConfig = {} as ResolvedConfig;
-  const namedEntryPointConfigs: Array<ExtendedEntryPointConfig> = [];
-  const bundles: Array<DeclarationBundle> = [];
+  const namedEntryPointConfigs: ExtendedEntryPointConfig[] = [];
+  const bundles: DeclarationBundle[] = [];
 
   return {
     name: 'dts-bundle-generator',
@@ -59,7 +59,7 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
         }));
       }
     },
-    buildEnd: async () => {
+    buildEnd: () => {
       generateDtsBundle(namedEntryPointConfigs, compilationOptions).forEach((content, i) => bundles.push({
         content,
         outFile: path.resolve(viteConfig.build.outDir, namedEntryPointConfigs[i].outFile),
@@ -68,8 +68,8 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
           + colors.dim(displaySize(Buffer.byteLength(content)))
       }));
     },
-    closeBundle: async () => {
-      viteConfig.logger.info(`\n${colors.green('✓')} ${bundles.length} declaration bundles generated.`);
+    closeBundle: () => {
+      viteConfig.logger.info(`\n${colors.green('✓')} ${bundles.length.toString()} declaration bundles generated.`);
       bundles.forEach(bundle => {
         fs.writeFileSync(bundle.outFile, bundle.content);
         viteConfig.logger.info(bundle.info);
