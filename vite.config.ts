@@ -1,8 +1,10 @@
-import path from 'path';
+import path from 'node:path';
+
+import nodeExternals from 'rollup-plugin-node-externals';
 import { defineConfig, normalizePath } from 'vite';
 
-import dtsBundleGenerator from './src/index.js';
 import p from './package.json' with { type: 'json' };
+import dtsBundleGenerator from './src/index.js';
 
 const formats: Record<string, string> = {
   'es': path.basename(p.module),
@@ -10,6 +12,9 @@ const formats: Record<string, string> = {
 
 export default defineConfig({
   plugins: [
+    nodeExternals({
+      include: ['picocolors'],
+    }),
     dtsBundleGenerator({
       fileName: path.basename(p.types),
       output: {
@@ -23,9 +28,6 @@ export default defineConfig({
       entry: normalizePath(p.source),
       formats: ['es'],
       fileName: (format) => formats[format],
-    },
-    rollupOptions: {
-      external: ['dts-bundle-generator', 'fs', 'path', 'picocolors', 'vite', 'zlib'],
     },
   },
 });

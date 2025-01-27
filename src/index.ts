@@ -1,10 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import zlib from 'zlib';
+import fs from 'node:fs';
+import path from 'node:path';
+import zlib from 'node:zlib';
 
-import colors from 'picocolors';
 import type { CompilationOptions, EntryPointConfig } from 'dts-bundle-generator';
 import { generateDtsBundle } from 'dts-bundle-generator';
+import colors from 'picocolors';
 import type { InputOption } from 'rollup';
 
 type ExtendedEntryPointConfig = EntryPointConfig & {
@@ -42,9 +42,10 @@ const displaySize = (content: string) => {
     minimumFractionDigits: 2,
   };
 
-  return `${(size / 1000).toLocaleString('en', options)} kB`
-    + '|'
-    + `gzip: ${(compressedSize / 1000).toLocaleString('en', options)} kB`;
+  return [
+    `${(size / 1000).toLocaleString('en', options)} kB`,
+    `gzip: ${(compressedSize / 1000).toLocaleString('en', options)} kB`,
+  ].join('|');
 };
 
 const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: CompilationOptions) => {
@@ -78,7 +79,8 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
         content,
         outFile: path.resolve(viteConfig.build.outDir, namedEntryPointConfigs[i].outFile),
         info: colors.dim(`${viteConfig.build.outDir}/`)
-          + colors.cyan(`${namedEntryPointConfigs[i].outFile}  `)
+          + colors.cyan(namedEntryPointConfigs[i].outFile)
+          + '  '
           + colors.dim(displaySize(content)),
       }));
     },
