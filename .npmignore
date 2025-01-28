@@ -1,6 +1,5 @@
-.editorconfig
-.eslintignore
-.eslintrc
-tsconfig.json
-vite.config.mts
 src/*
+.editorconfig
+eslint.config.ts
+tsconfig.json
+vite.config.ts
