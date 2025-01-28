@@ -11,9 +11,8 @@ export default typescript.config({
 }, {
   files: ['**/*.ts'],
   plugins: {
-    '@typescript': typescript.plugin,
+    '@typescript-eslint': typescript.plugin,
     '@simple-import-sort': simpleImportSort,
-    // eslint-<disalble-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error Stylistic plugin is not compatible with TypeScript ESLint types
     '@stylistic': stylistic,
   },

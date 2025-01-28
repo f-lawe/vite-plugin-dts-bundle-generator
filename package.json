@@ -23,9 +23,11 @@
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
     "analyse": "tsc --noEmit",
+    "analyse:ci": "tsc --noEmit",
     "build": "vite build",
     "clean": "rimraf dist",
     "lint": "eslint . --fix && sort-package-json",
+    "lint:ci": "eslint . && sort-package-json",
     "prepack": "npm run clean && npm run build",
     "watch": "vite build --watch"
   },
