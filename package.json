@@ -22,18 +22,20 @@
   "source": "src/index.ts",
   "types": "dist/dts-bundle-generator.d.ts",
   "scripts": {
-    "analyse": "tsc --noEmit",
     "build": "vite build",
     "clean": "rimraf dist",
     "lint": "eslint . --fix && sort-package-json",
+    "lint:ci": "eslint . && sort-package-json",
     "prepack": "npm run clean && npm run build",
+    "typecheck": "tsc --noEmit",
+    "typecheck:ci": "tsc --noEmit",
     "watch": "vite build --watch"
   },
   "dependencies": {
     "dts-bundle-generator": "^9.3.1"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^3.0.0",
+    "@stylistic/eslint-plugin": "^4.0.0",
     "@types/node": "^22.0.0",
     "eslint": "^9.12.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
@@ -43,9 +45,9 @@
     "sort-package-json": "^2.4.1",
     "typescript": "^5.0.2",
     "typescript-eslint": "^8.21.0",
-    "vite": "^5.0.12 || ^6.0.0"
+    "vite": "^6.1.1"
   },
   "peerDependencies": {
-    "vite": "^5.0.12 || ^6.0.0"
+    "vite": "^6.1.1"
   }
 }

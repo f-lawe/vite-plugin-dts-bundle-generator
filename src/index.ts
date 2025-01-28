@@ -45,18 +45,17 @@ const displaySize = (content: string) => {
   return [
     `${(size / 1000).toLocaleString('en', options)} kB`,
     `gzip: ${(compressedSize / 1000).toLocaleString('en', options)} kB`,
-  ].join('|');
+  ].join(' | ');
 };
 
 const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: CompilationOptions) => {
   const viteConfig = {} as ResolvedConfig;
-  const namedEntryPointConfigs: ExtendedEntryPointConfig[] = [];
-  const bundles: DeclarationBundle[] = [];
+  const namedEntryPointConfigs: Array<ExtendedEntryPointConfig> = [];
+  const bundles: Array<DeclarationBundle> = [];
 
   return {
     name: 'dts-bundle-generator',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    configResolved: (resolvedConfig: any) => {
+    configResolved: (resolvedConfig: unknown) => {
       Object.assign(viteConfig, resolvedConfig);
 
       if (viteConfig.build.lib) {

@@ -1,12 +1,14 @@
 # DTS Bundle Generator Vite plugin
 
-![npm](https://img.shields.io/npm/v/vite-plugin-dts-bundle-generator)
-![npm](https://img.shields.io/npm/dt/vite-plugin-dts-bundle-generator)
-![npm](https://img.shields.io/npm/l/vite-plugin-dts-bundle-generator)
+[![Versions](https://img.shields.io/npm/v/vite-plugin-dts-bundle-generator)](https://www.npmjs.com/package/vite-plugin-dts-bundle-generator?activeTab=versions)
+[![Downloads](https://img.shields.io/npm/dt/vite-plugin-dts-bundle-generator)](https://www.npmjs.com/package/vite-plugin-dts-bundle-generator)
+[![Licence](https://img.shields.io/npm/l/vite-plugin-dts-bundle-generator)](./LICENCE)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/f-lawe/vite-plugin-dts-bundle-generator/pr-checks.yml)](https://github.com/f-lawe/vite-plugin-dts-bundle-generator/actions/workflows/pr-checks.yml)
+
 
 Ever wanted to easily package your typescript library with a bundled declaration file? Integrate [DTS Bundle Generator](https://github.com/timocov/dts-bundle-generator) within [Vite](https://github.com/vitejs/vite)!
 
-## Install
+## Installation
 ```sh
 # npm
 npm i vite-plugin-dts-bundle-generator
