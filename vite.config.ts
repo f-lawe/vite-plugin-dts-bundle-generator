@@ -7,6 +7,7 @@ import p from './package.json' with { type: 'json' };
 import dtsBundleGenerator from './src/index.js';
 
 const formats: Record<string, string> = {
+  'cjs': path.basename(p.main),
   'es': path.basename(p.module),
 };
 
@@ -26,7 +27,7 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: normalizePath(p.source),
-      formats: ['es'],
+      formats: ['cjs', 'es'],
       fileName: (format) => formats[format],
     },
   },

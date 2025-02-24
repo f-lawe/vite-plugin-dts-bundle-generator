@@ -10,11 +10,11 @@ Ever wanted to easily package your typescript library with a bundled declaration
 
 ## Installation
 ```sh
-# npm
-npm i vite-plugin-dts-bundle-generator
+npm i --save-dev vite-plugin-dts-bundle-generator
+```
 
-# yarn
-yarn add vite-plugin-dts-bundle-generator
+```sh
+yarn add --dev vite-plugin-dts-bundle-generator
 ```
 
 ## Usage
