@@ -1,4 +1,6 @@
+.github/*
 src/*
+
 .editorconfig
 eslint.config.ts
 tsconfig.json

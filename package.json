@@ -14,10 +14,12 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/dts-bundle-generator.d.ts",
       "import": "./dist/dts-bundle-generator.mjs",
-      "types": "./dist/dts-bundle-generator.d.ts"
+      "require": "./dist/dts-bundle-generator.cjs"
     }
   },
+  "main": "dist/dts-bundle-generator.cjs",
   "module": "dist/dts-bundle-generator.mjs",
   "source": "src/index.ts",
   "types": "dist/dts-bundle-generator.d.ts",
@@ -49,5 +51,9 @@
   },
   "peerDependencies": {
     "vite": "^6.1.1"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10.0.0"
   }
 }
