@@ -1,35 +1,27 @@
-import eslint from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
-import typescript from 'typescript-eslint';
+import antfu from '@antfu/eslint-config';
 
-export default typescript.config({
-  ignores: ['.vscode/**', 'dist/**', 'node_modules/**'],
+export default antfu({
+  type: 'lib',
+  stylistic: {
+    semi: true,
+  },
 }, {
-  files: ['**/*.ts'],
-  plugins: {
-    '@typescript-eslint': typescript.plugin,
-    '@simple-import-sort': simpleImportSort,
-    '@stylistic': stylistic,
-  },
-  languageOptions: {
-    parser: typescript.parser,
-    parserOptions: {
-      projectService: true,
-    },
-  },
-  extends: [
-    eslint.configs.recommended,
-    typescript.configs.strictTypeChecked,
-    typescript.configs.stylisticTypeChecked,
-    stylistic.configs.recommended,
-  ],
   rules: {
-    '@simple-import-sort/imports': 'warn',
-    '@stylistic/arrow-parens': ['warn', 'always'],
-    '@stylistic/max-len': ['warn', 120],
-    '@stylistic/quote-props': ['warn', 'consistent'],
-    '@stylistic/semi': ['warn', 'always'],
-    '@typescript-eslint/array-type': ['warn', { default: 'generic' }],
+    'no-console': 'off',
+    'antfu/top-level-function': 'off',
+    'style/arrow-parens': ['warn', 'always'],
+    'style/max-len': ['warn', 120],
+    'style/quote-props': ['warn', 'consistent'],
+    'ts/array-type': ['warn', { default: 'generic' }],
+  },
+}, {
+  files: ['**/package.json'],
+  rules: {
+    'jsonc/sort-keys': 'off',
+  },
+}, {
+  files: ['*.md', '**/*.md'],
+  rules: {
+    'style/max-len': 'off',
   },
 });

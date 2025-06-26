@@ -2,10 +2,10 @@ name: PR Checks
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
     branches:
-    - master
+      - master
   workflow_dispatch:
 
 jobs:
@@ -15,24 +15,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [ 22 ]
+        node-version: [22]
     steps:
-    - name: Check out ${{ github.sha }} from repository ${{ github.repository }}
-      uses: actions/checkout@v4
+      - name: Check out ${{ github.sha }} from repository ${{ github.repository }}
+        uses: actions/checkout@v4
 
-    - name: Set up Node ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Set up Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run type checks
-      run: npm run typecheck:ci
+      - name: Run type checks
+        run: npm run typecheck:ci
 
-    - name: Run linter
-      run: npm run lint:ci
+      - name: Run linter
+        run: npm run lint:ci
 
-    - name: Test build
-      run: npm run build
+      - name: Test build
+        run: npm run build
