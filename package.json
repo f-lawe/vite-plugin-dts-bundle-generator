@@ -1,7 +1,7 @@
 {
-  "name": "vite-plugin-dts-bundle-generator",
-  "version": "2.1.2",
-  "description": "DTS bundle generator for Vite",
+  "name": "unplugindts-bundle-generator",
+  "version": "3.0.0",
+  "description": "DTS bundle generator for Unplugin",
   "keywords": [
     "unplugin",
     "vite",
