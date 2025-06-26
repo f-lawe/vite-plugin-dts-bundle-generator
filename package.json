@@ -1,6 +1,6 @@
 {
   "name": "unplugindts-bundle-generator",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "DTS bundle generator for Unplugin",
   "keywords": [
     "unplugin",
