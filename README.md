@@ -1,3 +1,7 @@
+_⚠️ This package has been replaced by [unplugin-dts-bundle-generator](https://www.npmjs.com/package/unplugin-dts-bundle-generator) (Vite support of course, and more to come!)_
+
+___
+
 # DTS Bundle Generator Vite plugin
 
 [![Versions](https://img.shields.io/npm/v/vite-plugin-dts-bundle-generator)](https://www.npmjs.com/package/vite-plugin-dts-bundle-generator?activeTab=versions)
