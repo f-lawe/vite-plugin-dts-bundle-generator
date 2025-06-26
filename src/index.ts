@@ -45,7 +45,7 @@ const displaySize = (content: string) => {
   return [
     `${(size / 1000).toLocaleString('en', options)} kB`,
     `gzip: ${(compressedSize / 1000).toLocaleString('en', options)} kB`,
-  ].join(' | ');
+  ].join(' │ ');
 };
 
 const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: CompilationOptions) => {
@@ -89,6 +89,9 @@ const dtsBundleGenerator = (pluginConfig: PluginConfig, compilationOptions?: Com
         fs.writeFileSync(bundle.outFile, bundle.content);
         viteConfig.logger.info(bundle.info);
       });
+      console.warn(colors.yellow('vite-plugin-dts-bundle-generator is moving to Unplugin architecture, '
+        + 'please migrate to unplugin-dts-bundle-generator for versions 3+',
+      ));
     },
   };
 };
