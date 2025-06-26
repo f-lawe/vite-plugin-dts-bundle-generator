@@ -1,21 +1,18 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
     "jsx": "preserve",
-    "sourceMap": true,
+    "lib": ["esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "skipLibCheck": true,
+    "strict": true,
     "declaration": true,
+    "declarationDir": "./dist",
     "declarationMap": true,
-    "declarationDir": "./dist"
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": [
     "*.ts",

@@ -1,15 +1,13 @@
-import path from 'node:path';
-
 import nodeExternals from 'rollup-plugin-node-externals';
 import { defineConfig, normalizePath } from 'vite';
 
 import p from './package.json' with { type: 'json' };
-import dtsBundleGenerator from './src/index.js';
+import dtsBundleGenerator from './src/vite';
 
-const formats: Record<string, string> = {
-  'cjs': path.basename(p.main),
-  'es': path.basename(p.module),
-};
+const entry = Object.fromEntries(Object.keys(p.exports).map((exportKey) => exportKey === '.'
+  ? ['dts-bundle-generator', normalizePath('./src/index.ts')]
+  : [exportKey.replace('./', ''), normalizePath(`./src/${exportKey.replace('./', '')}.ts`)],
+));
 
 export default defineConfig({
   plugins: [
@@ -17,18 +15,21 @@ export default defineConfig({
       include: ['picocolors'],
     }),
     dtsBundleGenerator({
-      fileName: path.basename(p.types),
+      fileName: (entryName: string) => `${entryName}.d.ts`,
       output: {
         noBanner: true,
+      },
+      compilation: {
+        preferredConfigPath: './tsconfig.json',
       },
     }),
   ],
   build: {
     sourcemap: true,
     lib: {
-      entry: normalizePath(p.source),
+      entry,
       formats: ['cjs', 'es'],
-      fileName: (format) => formats[format],
+      fileName: (format: string, entryName: string) => `${entryName}.${format === 'es' ? 'mjs' : 'cjs'}`,
     },
   },
 });
