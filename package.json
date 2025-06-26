@@ -3,12 +3,15 @@
   "version": "2.1.2",
   "description": "DTS bundle generator for Vite",
   "keywords": [
-    "vite-plugin",
+    "unplugin",
+    "vite",
+    "webpack",
+    "rollup",
     "dts",
     "bundle",
     "typescript"
   ],
-  "repository": "https://github.com/f-lawe/vite-plugin-dts-bundle-generator",
+  "repository": "https://github.com/f-lawe/unplugin-dts-bundle-generator",
   "license": "MIT",
   "author": "François Lavaud-Wernert <francois@lavaud.family>",
   "type": "module",
@@ -17,6 +20,11 @@
       "types": "./dist/dts-bundle-generator.d.ts",
       "import": "./dist/dts-bundle-generator.mjs",
       "require": "./dist/dts-bundle-generator.cjs"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
     }
   },
   "main": "dist/dts-bundle-generator.cjs",
@@ -27,30 +35,58 @@
     "build": "vite build",
     "clean": "rimraf dist",
     "lint": "eslint . --fix && sort-package-json",
-    "lint:ci": "eslint . && sort-package-json",
+    "lint:ci": "eslint . && sort-package-json --check",
     "prepack": "npm run clean && npm run build",
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit",
     "watch": "vite build --watch"
   },
   "dependencies": {
-    "dts-bundle-generator": "^9.3.1"
+    "dts-bundle-generator": "^9.3.1",
+    "unplugin": "^2.3.5"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^4.0.0",
-    "@types/node": "^22.0.0",
+    "@antfu/eslint-config": "^4.16.1",
+    "@nuxt/kit": "^3.17.4",
+    "@nuxt/schema": "^3.17.4",
+    "@types/node": "^24.0.4",
     "eslint": "^9.12.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
     "jiti": "^2.4.2",
     "rimraf": "^6.0.1",
+    "rollup": "^4.41.0",
     "rollup-plugin-node-externals": "^8.0.0",
-    "sort-package-json": "^2.4.1",
+    "sort-package-json": "^3.3.1",
     "typescript": "^5.0.2",
-    "typescript-eslint": "^8.21.0",
-    "vite": "^6.1.1"
+    "vite": "^7.0.0",
+    "webpack": "^5.99.9"
   },
   "peerDependencies": {
-    "vite": "^6.1.1"
+    "@nuxt/kit": "^3",
+    "@nuxt/schema": "^3",
+    "esbuild": "*",
+    "rollup": "^3",
+    "vite": ">=3",
+    "webpack": "^4 || ^5"
+  },
+  "peerDependenciesMeta": {
+    "@nuxt/kit": {
+      "optional": true
+    },
+    "@nuxt/schema": {
+      "optional": true
+    },
+    "esbuild": {
+      "optional": true
+    },
+    "rollup": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=22.12.0",
