@@ -1,5 +1,5 @@
 {
-  "name": "unplugindts-bundle-generator",
+  "name": "unplugin-dts-bundle-generator",
   "version": "3.0.0",
   "description": "DTS bundle generator for Unplugin",
   "keywords": [

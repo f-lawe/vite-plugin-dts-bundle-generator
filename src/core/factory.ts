@@ -25,7 +25,7 @@ interface DeclarationBundle {
 }
 
 interface BuildConfig {
-  outDir: string;
+  outDir?: string;
 }
 
 const assignEntry = (entry: Record<string, string>, input: InputOption): void => {
@@ -49,11 +49,9 @@ const assignEntry = (entry: Record<string, string>, input: InputOption): void =>
 export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
   const bundles: Array<DeclarationBundle> = [];
   const entry: Record<string, string> = {};
-  const buildConfig: BuildConfig = {} as BuildConfig;
+  const buildConfig: BuildConfig = {};
 
-  const fileName = typeof options.fileName == 'function'
-    ? options.fileName
-    : () => options.fileName as string;
+  const fileName = typeof options.fileName == 'string' ? () => options.fileName as string : options.fileName
 
   return {
     name: 'unplugin-dts-bundle-generator',
@@ -72,7 +70,7 @@ export const unpluginFactory: UnpluginFactory<Options, false> = (options) => {
       }));
     },
     writeBundle() {
-      bundles.forEach((bundle) => fs.writeFileSync(path.resolve(buildConfig.outDir, bundle.outFile), bundle.content));
+      bundles.forEach((bundle) => fs.writeFileSync(path.resolve(buildConfig.outDir ?? '', bundle.outFile), bundle.content));
     },
     vite: {
       configResolved(config) {
